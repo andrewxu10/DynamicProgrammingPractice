@@ -13,6 +13,16 @@ public class Levenshtein_Distance {
 	    System.out.println();
 	}
 	
+	//iterative DP solution wrapper
+	public static int iterativeWrapper(String string1, String string2) {
+		//initialize cache w/ default values of -1
+				int[][] cache = new int[string1.length()+1][string2.length()+1];
+				for (int[] row: cache){
+					 Arrays.fill(row, -1);
+				}
+		//initialize 1st row/column values as == to their index (WRITE CODE BELOW)
+	}
+	
 	//memoized DP solution, prints cache as well
 	public static int DPwrapper(String string1, String string2) {
 		//initialize cache w/ default values of -1
