@@ -18,7 +18,7 @@ public class Levenshtein_Distance {
 			//initialize cache w/ default values of -1
 			int[][] cache = new int[string1.length()+1][string2.length()+1];
 			for (int[] row: cache){
-				 Arrays.fill(row, -1);
+				 Arrays.fill(row, 0);
 			}
 			//set top row, set left column
 			for (int i = 0; i < cache.length; i++) {
@@ -27,20 +27,27 @@ public class Levenshtein_Distance {
 			for (int j = 0; j < cache[0].length; j++) {
 				cache[0][j] = j;
 			}
-			for (int a = 0; a < cache.length; a++) {
-				for (int b = 0; b < cache[0].length; b++) {
+			for (int a = 1; a < cache.length; a++) {
+				for (int b = 1; b < cache[0].length; b++) {
 					//[][0] & [0][] values already set
 					//b = row value, aka column
 					//a = row 'number'
-					if(a != 0 && b != 0) {
+//					if(a != 0 && b != 0) {
 						String s1 = string1.substring(0, a);
 						String s2 = string2.substring(0, b);
+						System.out.println(s1);
+						System.out.println(s2);
+						
 						if(s2.length() <= s1.length()) {
 							if(s2.charAt(s2.length() - 1) == s1.charAt(s1.length() - 1)) {
+								System.out.println("hit");
 								cache[a][b] = cache[a][b-1] - 1;
+							} else {
+								cache[a][b] = cache[a][b-1];
 							}
 						}
-					}
+						System.out.println();
+					//}
 				}
 			}
 			printMatrix(cache);
