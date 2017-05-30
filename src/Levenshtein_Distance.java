@@ -15,13 +15,40 @@ public class Levenshtein_Distance {
 	
 	//iterative DP solution wrapper
 	public static int iterativeWrapper(String string1, String string2) {
-		//initialize cache w/ default values of -1
-				int[][] cache = new int[string1.length()+1][string2.length()+1];
-				for (int[] row: cache){
-					 Arrays.fill(row, -1);
+			//initialize cache w/ default values of -1
+			int[][] cache = new int[string1.length()+1][string2.length()+1];
+			for (int[] row: cache){
+				 Arrays.fill(row, -1);
+			}
+			//set top row, set left column
+			for (int i = 0; i < cache.length; i++) {
+				cache[i][0] = i;
+			}
+			for (int j = 0; j < cache[0].length; j++) {
+				cache[0][j] = j;
+			}
+			for (int a = 0; a < cache.length; a++) {
+				for (int b = 0; b < cache[0].length; b++) {
+					//[][0] & [0][] values already set
+					//b = row value, aka column
+					//a = row 'number'
+					if(a != 0 && b != 0) {
+						String s1 = string1.substring(0, a);
+						String s2 = string2.substring(0, b);
+						if(s2.length() <= s1.length()) {
+							if(s2.charAt(s2.length() - 1) == s1.charAt(s1.length() - 1)) {
+								cache[a][b] = cache[a][b-1] - 1;
+							}
+						}
+					}
 				}
-		//initialize 1st row/column values as == to their index (WRITE CODE BELOW)
+			}
+			printMatrix(cache);
+			return 0;
 	}
+	
+	
+	
 	
 	//memoized DP solution, prints cache as well
 	public static int DPwrapper(String string1, String string2) {
@@ -30,7 +57,6 @@ public class Levenshtein_Distance {
 		for (int[] row: cache){
 			 Arrays.fill(row, -1);
 		}
-		
 		int answer = Levenshtein(string1, string2, cache);
 		printMatrix(cache);
 		return answer;
@@ -80,5 +106,6 @@ public class Levenshtein_Distance {
 	
 	public static void main(String[] args) {
 		System.out.println(DPwrapper("mzzzm", "mmmmm"));
+		iterativeWrapper("mzzzm", "mmmmm");
 	}
 }
