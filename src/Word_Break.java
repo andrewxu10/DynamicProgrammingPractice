@@ -5,8 +5,18 @@ import java.util.HashMap;
 public class Word_Break {
 
 	public static void main (String[] args) {
-		String[] strDict = new String[]{"apple", "pie", "albino", "juice", "ass", "assan", "an"};
-		wordBreak("applepiealbinojuiceassan", strDict);	
+		//String[] strDict = new String[]{"apple", "pie", "albino", "juice", "ass", "assan", "an"};
+		HashMap<String, String> strDict = new HashMap<String, String>();
+        strDict.put("assan", "assan");
+        strDict.put("an", "an");
+        strDict.put("ass", "ass");
+        strDict.put("apple", "apple");
+        strDict.put("pie", "pie");
+        strDict.put("albino", "albino");
+        strDict.put("juice", "juice");
+		wordBreakHandler("applepiealbinojuiceassan", strDict);	
+
+		
 	}
 	
 //	public static boolean wordBreak(String string, String[] strDict) {
@@ -64,11 +74,22 @@ public class Word_Break {
 	
 	public static ArrayList<String> wordBreak(String string, HashMap<String, String> strDict, ArrayList<String> answers) {
 		if(string.length() == 0) {
-			return answers;
+			return answers; //should be- add to list of answers
 		}
 		if(string.length() > 1) {
 			if(findNextShortest(string, strDict) == null) { //if the last substring isn't flush with the string's suffix:
-				return wordBreak(string, strDict.remove(answers[answers.size()])); //recurse, keep popping the last word
+				//for(int i = answers.size() - 1; i >= 0; i--) { //everything in this loop is broken
+					//System.out.println(string);
+					System.out.println("hit");
+					strDict.remove(answers.get(answers.size() - 1)); //pop the last answer from the dict
+					answers.remove(answers.size() - 1); //and also pop it from the answers list
+					//ArrayList<String> value = wordBreak(string, strDict, answers); //recurse, keep popping the last word if necessary
+					//return value;
+					
+					//below and above - need to implement this within handler
+					
+					//wordBreakHandler(string, strDict);
+				//}
 			} else {
 			String nextString = findNextShortest(string, strDict);
 			answers.add(nextString);
@@ -76,6 +97,20 @@ public class Word_Break {
 			wordBreak(string, strDict, answers); //recursion: substring, same dict, keep adding to answers
 			}
 		}
+		return answers;
+	}
+	
+	public static String findNextShortest(String string, HashMap<String, String> strDict) {
+		for (int i = 1; i <= string.length(); i++) {
+			if(strDict.containsKey(string.substring(0, i))) {
+				return string.substring(0,i);
+			}
+		}
+		return null;
+	}
+	
+	public static void printList(ArrayList<String> arrayList) {
+		System.out.println(Arrays.deepToString(arrayList.toArray()));
 	}
 	
 	//a null answers list should be empty!
@@ -84,16 +119,25 @@ public class Word_Break {
 	public static void wordBreakHandler(String string, HashMap<String, String> strDict) {
 		ArrayList<String> emptyAnswersList = new ArrayList<String>(); //dummy list for initializing recursion etc
 		ArrayList<String> answersList = wordBreak(string, strDict, emptyAnswersList);
-		if(!answersList.isEmpty()) { 
-			System.out.println(answersList); //print answers, if any
+		if(!answersList.isEmpty()) {
+			printList(answersList);
+			//System.out.println(answersList); //print answers, if any
 			
-			while(!answersList.isEmpty()) { //while there are still answers in the array 'answersList'
-				strDict.remove(answersList.get(answersList.size())); //pop last answer from the dictionary
-				ArrayList<String> otherAnswersList = wordBreak(string, strDict, emptyAnswersList); //get result without the popped dictionary item
-				if(!answersList.isEmpty()) { //if it can run flush, it won't be empty
-					System.out.println(answersList); //so print them out. Otherwise run through the while loop again, and pop out another dictionary item
+			String popped = "";
+			for(int i = answersList.size() - 1; i >= 0; i--) {
+				
+				if(!answersList.isEmpty()) { //while there are still answers in the array 'answersList'
+					String pop = answersList.get(i);
+					popped = pop + "" + popped;
+					//System.out.println(popped);
+					strDict.remove(pop); //pop last answer from the dictionary
+					if(findNextShortest(popped, strDict) != null) {
+						ArrayList<String> otherAnswersList = wordBreak(string, strDict, emptyAnswersList); //get result without the popped dictionary item
+						printList(otherAnswersList);
+					}
 				}
 			}
+		}
 	}
 	
 	
