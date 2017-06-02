@@ -8,13 +8,16 @@ public class Word_Break {
 		//String[] strDict = new String[]{"apple", "pie", "albino", "juice", "ass", "assan", "an"};
 		HashMap<String, String> strDict = new HashMap<String, String>();
         strDict.put("assan", "assan");
+        strDict.put("assanan", "assanan");
         strDict.put("an", "an");
+        strDict.put("anan", "anan");
         strDict.put("ass", "ass");
         strDict.put("apple", "apple");
         strDict.put("pie", "pie");
         strDict.put("albino", "albino");
         strDict.put("juice", "juice");
-		wordBreakHandler("applepiealbinojuiceassan", strDict);	
+        //wordBreakHandler("applepiealbinojuiceassan", strDict); //stress test
+		wordBreakHandler("applepiealbinojuiceassanan", strDict); //ultimate stress test
 
 		
 	}
@@ -80,15 +83,21 @@ public class Word_Break {
 			if(findNextShortest(string, strDict) == null) { //if the last substring isn't flush with the string's suffix:
 				//for(int i = answers.size() - 1; i >= 0; i--) { //everything in this loop is broken
 					//System.out.println(string);
-					System.out.println("hit");
-					strDict.remove(answers.get(answers.size() - 1)); //pop the last answer from the dict
+					//System.out.println("hit");
+					//System.out.println("answers before removal: " + answers);
+					String locallyUnmatched = string;
+					String toBePoppedLocally = answers.get(answers.size() - 1);
+					System.out.println("remaining string: " + locallyUnmatched + " has no dict match '" + toBePoppedLocally + "' was removed from answers + dict");
+					strDict.remove(toBePoppedLocally); //pop the last answer from the dict
 					answers.remove(answers.size() - 1); //and also pop it from the answers list
+					String letsProcessThisNow = toBePoppedLocally + locallyUnmatched;
 					//ArrayList<String> value = wordBreak(string, strDict, answers); //recurse, keep popping the last word if necessary
 					//return value;
 					
 					//below and above - need to implement this within handler
 					
 					//wordBreakHandler(string, strDict);
+					return wordBreak(letsProcessThisNow, strDict, answers); // might just need empty answers array
 				//}
 			} else {
 			String nextString = findNextShortest(string, strDict);
@@ -129,10 +138,13 @@ public class Word_Break {
 				if(!answersList.isEmpty()) { //while there are still answers in the array 'answersList'
 					String pop = answersList.get(i);
 					popped = pop + "" + popped;
-					//System.out.println(popped);
+					System.out.println("removed from dict: " + pop);
 					strDict.remove(pop); //pop last answer from the dictionary
+					System.out.println("string left: " + popped);
 					if(findNextShortest(popped, strDict) != null) {
-						ArrayList<String> otherAnswersList = wordBreak(string, strDict, emptyAnswersList); //get result without the popped dictionary item
+						System.out.println("popped string has match");
+						ArrayList<String> newEmptyAnswersList = new ArrayList<String>();
+						ArrayList<String> otherAnswersList = wordBreak(string, strDict, newEmptyAnswersList); //get result without the popped dictionary item
 						printList(otherAnswersList);
 					}
 				}
