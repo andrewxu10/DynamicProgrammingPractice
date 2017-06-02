@@ -17,7 +17,7 @@ public class Word_Break {
         strDict.put("juice", "juice");
         //wordBreakHandler("applepiealbinojuiceassan", strDict); //stress test
 		wordBreakHandler("applepiealbinojuiceassanan", strDict); //ultimate stress test
-		wordBreakHandler("applepiealbinojuiceassanan", strDict); //now this is what i call a stress test - not working
+		//wordBreakHandler("appleassanalbinojuiceassanan", strDict); //now this is what i call a stress test - not working
 	}
 	
 	public static ArrayList<String> wordBreak(String string, HashMap<String, String> strDict, ArrayList<String> answers) {
@@ -57,25 +57,25 @@ public class Word_Break {
 		ArrayList<String> answersList = wordBreak(string, strDict, emptyAnswersList);
 		if(!answersList.isEmpty()) {
 			printList(answersList);
-			//System.out.println(answersList); //print answers, if any
 			
-			String popped = "";
-			for(int i = answersList.size() - 1; i >= 0; i--) {
-				
-				if(!answersList.isEmpty()) { //while there are still answers in the array 'answersList'
-					String pop = answersList.get(i);
-					popped = pop + "" + popped;
-					System.out.println("removed from dict: " + pop);
-					strDict.remove(pop); //pop last answer from the dictionary
-					System.out.println("string left: " + popped);
-					if(findNextShortest(popped, strDict) != null) {
-						System.out.println("popped string has match");
-						ArrayList<String> newEmptyAnswersList = new ArrayList<String>();
-						ArrayList<String> otherAnswersList = wordBreak(string, strDict, newEmptyAnswersList); //get result without the popped dictionary item
-						printList(otherAnswersList);
-					}
-				}
-			}
+			//currently this starts from the back, just like the recursive solution. lets try going from the front of the list to detect solution variations!
+//			String popped = "";
+//			for(int i = answersList.size() - 1; i >= 0; i--) {
+//				
+//				if(!answersList.isEmpty()) { //while there are still answers in the array 'answersList'
+//					String pop = answersList.get(i);
+//					popped = pop + "" + popped;
+//					System.out.println("removed from dict: " + pop);
+//					strDict.remove(pop); //pop last answer from the dictionary
+//					System.out.println("string left: " + popped);
+//					if(findNextShortest(popped, strDict) != null) {
+//						System.out.println("popped string has match");
+//						ArrayList<String> newEmptyAnswersList = new ArrayList<String>();
+//						ArrayList<String> otherAnswersList = wordBreak(string, strDict, newEmptyAnswersList); //get result without the popped dictionary item
+//						printList(otherAnswersList);
+//					}
+//				}
+//			}
 		}
 	}
 	
