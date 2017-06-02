@@ -87,7 +87,7 @@ public class Word_Break {
 					//System.out.println("answers before removal: " + answers);
 					String locallyUnmatched = string;
 					String toBePoppedLocally = answers.get(answers.size() - 1);
-					System.out.println("remaining string: " + locallyUnmatched + " has no dict match '" + toBePoppedLocally + "' was removed from answers + dict");
+					System.out.println("remaining string: " + locallyUnmatched + " has no dict match '" + toBePoppedLocally + "' was removed from answers, dict, readded to the string to process");
 					strDict.remove(toBePoppedLocally); //pop the last answer from the dict
 					answers.remove(answers.size() - 1); //and also pop it from the answers list
 					String letsProcessThisNow = toBePoppedLocally + locallyUnmatched;
