@@ -55,8 +55,27 @@ public class Word_Break {
 	public static void wordBreakHandler(String string, HashMap<String, String> strDict) {
 		ArrayList<String> emptyAnswersList = new ArrayList<String>(); //dummy list for initializing recursion etc
 		ArrayList<String> answersList = wordBreak(string, strDict, emptyAnswersList);
-		if(!answersList.isEmpty()) {
+		if(!answersList.isEmpty()) { //this code gets activated when there is at least 1 solution - it prints it and checks for more solutions.
 			printList(answersList);
+			
+			//trying something new
+			String popped = "";
+			for(int i = 0; i < answersList.size(); i++) { //run through each exclude, and then in those excludes, exclude everything again.
+				
+				if(!answersList.isEmpty()) { //while there are still answers in the array 'answersList'
+					String pop = answersList.get(i);
+					//popped = popped + "" + pop;
+					System.out.println("removed from dict: " + pop);
+					strDict.remove(pop); //pop last answer from the dictionary
+					//System.out.println("string left: " + popped);
+					if(findNextShortest(string, strDict) != null) {
+						System.out.println("popped string has match");
+						ArrayList<String> newEmptyAnswersList = new ArrayList<String>();
+						ArrayList<String> otherAnswersList = wordBreak(string, strDict, newEmptyAnswersList); //get result without the popped dictionary item
+						printList(otherAnswersList);
+					}
+				}
+			}
 			
 			//currently this starts from the back, just like the recursive solution. lets try going from the front of the list to detect solution variations!
 //			String popped = "";
