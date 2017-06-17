@@ -60,7 +60,7 @@ public class Word_Break {
 			
 			//trying something new
 			String popped = "";
-			for(int i = 0; i < answersList.size(); i++) { //run through each exclude, and then in those excludes, exclude everything again.
+			for(int i = 0; i < answersList.size(); i++) { //Starting from the beginning, find the next longest word, recurse 2x - one as the first answer to the problem, and once with that excluded (look for a longer word starting in that index...if it finds one, recurse and )
 				
 				if(!answersList.isEmpty()) { //while there are still answers in the array 'answersList'
 					String pop = answersList.get(i);
